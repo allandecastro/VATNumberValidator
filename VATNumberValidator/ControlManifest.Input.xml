@@ -1,276 +1,49 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="VATNumberValidatorNameSpace" constructor="VATNumberValidator" version="0.0.1" display-name-key="VATNumberValidator" description-key="VATNumberValidator description" control-type="standard">
+  <control namespace="VATNumberValidatorNameSpace" constructor="VATNumberValidator" version="1.0.0" display-name-key="VATNumberValidator" description-key="VATNumberValidator allows you to validate the entry of a VAT Number by checking it with the European Commission and retrieving, depending on the configuration, the address and the name of the company." control-type="standard" preview-image="img/preview.png">
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
-    <property name="vatNumberfield" display-name-key="Vat Number Field" description-key="Field containing the VAT Number." of-type="SingleLine.Text" usage="bound" required="true" />
-    <property name="isVatNumberValid" display-name-key="Is vat number valid ?" description-key="Is vat number valid ?" of-type="TwoOptions" usage="bound" required="false" />
-    <property name="companyName" display-name-key="companyName" description-key="companyName" of-type="SingleLine.Text" usage="bound" required="false" />
-    <property name="companyAddress" display-name-key="companyAddress" description-key="companyAddress" of-type="SingleLine.Text" usage="bound" required="false" />
-
+    <property name="vatNumberfield" display-name-key="VAT Number Field" description-key="Field containing the VAT Number." of-type-group="textFields" usage="bound" required="true" />
+    <property name="isVatNumberValid" display-name-key="VAT number validity field" description-key="Boolean field filled-in with the output validity of the VAT Number." of-type="TwoOptions" usage="bound" required="false" />
+    <property name="companyName" display-name-key="Company Name" description-key="Field that will be used to insert the name of the found company." of-type-group="textFields" usage="bound" required="false" />
+    <property name="companyAddress" display-name-key="Company Address" description-key="Field that will be used to insert the address of the found company." of-type-group="textFields" usage="bound" required="false" />
+    <type-group name="textFields">
+      <type>SingleLine.Text</type>
+      <type>SingleLine.TextArea</type>
+      <type>Multiple</type>
+    </type-group>
     <resources>
       <code path="index.ts" order="1"/>
       <css path="css/VATNumberValidator.css" order="1" />
-      <img path='img/ad.png' />
-      <img path='img/ae.png' />
-      <img path='img/af.png' />
-      <img path='img/ag.png' />
-      <img path='img/ai.png' />
-      <img path='img/al.png' />
-      <img path='img/am.png' />
-      <img path='img/an.png' />
-      <img path='img/ao.png' />
-      <img path='img/aq.png' />
-      <img path='img/ar.png' />
-      <img path='img/as.png' />
+      <img path='img/preview.png' />
+      <img path='img/warning.png' />
       <img path='img/at.png' />
-      <img path='img/au.png' />
-      <img path='img/aw.png' />
-      <img path='img/ax.png' />
-      <img path='img/az.png' />
-      <img path='img/ba.png' />
-      <img path='img/bb.png' />
-      <img path='img/bd.png' />
       <img path='img/be.png' />
-      <img path='img/bf.png' />
       <img path='img/bg.png' />
-      <img path='img/bh.png' />
-      <img path='img/bi.png' />
-      <img path='img/bj.png' />
-      <img path='img/bl.png' />
-      <img path='img/bm.png' />
-      <img path='img/bn.png' />
-      <img path='img/bo.png' />
-      <img path='img/bq.png' />
-      <img path='img/br.png' />
-      <img path='img/bs.png' />
-      <img path='img/bt.png' />
-      <img path='img/bv.png' />
-      <img path='img/bw.png' />
-      <img path='img/by.png' />
-      <img path='img/bz.png' />
-      <img path='img/ca.png' />
-      <img path='img/cc.png' />
-      <img path='img/cd.png' />
-      <img path='img/cf.png' />
-      <img path='img/cg.png' />
-      <img path='img/ch.png' />
-      <img path='img/ci.png' />
-      <img path='img/ck.png' />
-      <img path='img/cl.png' />
-      <img path='img/cm.png' />
-      <img path='img/cn.png' />
-      <img path='img/co.png' />
-      <img path='img/cr.png' />
-      <img path='img/cu.png' />
-      <img path='img/cv.png' />
-      <img path='img/cw.png' />
-      <img path='img/cx.png' />
       <img path='img/cy.png' />
       <img path='img/cz.png' />
       <img path='img/de.png' />
-      <img path='img/dj.png' />
       <img path='img/dk.png' />
-      <img path='img/dm.png' />
-      <img path='img/do.png' />
-      <img path='img/dz.png' />
-      <img path='img/ec.png' />
       <img path='img/ee.png' />
-      <img path='img/eg.png' />
-      <img path='img/eh.png' />
-      <img path='img/er.png' />
+      <img path='img/el.png' />
       <img path='img/es.png' />
-      <img path='img/et.png' />
-      <img path='img/eu.png' />
       <img path='img/fi.png' />
-      <img path='img/fj.png' />
-      <img path='img/fk.png' />
-      <img path='img/fm.png' />
-      <img path='img/fo.png' />
       <img path='img/fr.png' />
-      <img path='img/ga.png' />
-      <img path='img/gb-eng.png' />
-      <img path='img/gb-nir.png' />
-      <img path='img/gb-sct.png' />
-      <img path='img/gb-wls.png' />
       <img path='img/gb.png' />
-      <img path='img/gd.png' />
-      <img path='img/ge.png' />
-      <img path='img/gf.png' />
-      <img path='img/gg.png' />
-      <img path='img/gh.png' />
-      <img path='img/gi.png' />
-      <img path='img/gl.png' />
-      <img path='img/gm.png' />
-      <img path='img/gn.png' />
-      <img path='img/gp.png' />
-      <img path='img/gq.png' />
-      <img path='img/gr.png' />
-      <img path='img/gs.png' />
-      <img path='img/gt.png' />
-      <img path='img/gu.png' />
-      <img path='img/gw.png' />
-      <img path='img/gy.png' />
-      <img path='img/hk.png' />
-      <img path='img/hm.png' />
-      <img path='img/hn.png' />
       <img path='img/hr.png' />
-      <img path='img/ht.png' />
       <img path='img/hu.png' />
-      <img path='img/id.png' />
       <img path='img/ie.png' />
-      <img path='img/il.png' />
-      <img path='img/im.png' />
-      <img path='img/in.png' />
-      <img path='img/io.png' />
-      <img path='img/iq.png' />
-      <img path='img/ir.png' />
-      <img path='img/is.png' />
       <img path='img/it.png' />
-      <img path='img/je.png' />
-      <img path='img/jm.png' />
-      <img path='img/jo.png' />
-      <img path='img/jp.png' />
-      <img path='img/ke.png' />
-      <img path='img/kg.png' />
-      <img path='img/kh.png' />
-      <img path='img/ki.png' />
-      <img path='img/km.png' />
-      <img path='img/kn.png' />
-      <img path='img/kp.png' />
-      <img path='img/kr.png' />
-      <img path='img/kw.png' />
-      <img path='img/ky.png' />
-      <img path='img/kz.png' />
-      <img path='img/la.png' />
-      <img path='img/lb.png' />
-      <img path='img/lc.png' />
-      <img path='img/li.png' />
-      <img path='img/lk.png' />
-      <img path='img/lr.png' />
-      <img path='img/ls.png' />
       <img path='img/lt.png' />
       <img path='img/lu.png' />
       <img path='img/lv.png' />
-      <img path='img/ly.png' />
-      <img path='img/ma.png' />
-      <img path='img/mc.png' />
-      <img path='img/md.png' />
-      <img path='img/me.png' />
-      <img path='img/mf.png' />
-      <img path='img/mg.png' />
-      <img path='img/mh.png' />
-      <img path='img/mk.png' />
-      <img path='img/ml.png' />
-      <img path='img/mm.png' />
-      <img path='img/mn.png' />
-      <img path='img/mo.png' />
-      <img path='img/mp.png' />
-      <img path='img/mq.png' />
-      <img path='img/mr.png' />
-      <img path='img/ms.png' />
       <img path='img/mt.png' />
-      <img path='img/mu.png' />
-      <img path='img/mv.png' />
-      <img path='img/mw.png' />
-      <img path='img/mx.png' />
-      <img path='img/my.png' />
-      <img path='img/mz.png' />
-      <img path='img/na.png' />
-      <img path='img/nc.png' />
-      <img path='img/ne.png' />
-      <img path='img/nf.png' />
-      <img path='img/ng.png' />
-      <img path='img/ni.png' />
       <img path='img/nl.png' />
-      <img path='img/no.png' />
-      <img path='img/np.png' />
-      <img path='img/nr.png' />
-      <img path='img/nu.png' />
-      <img path='img/nz.png' />
-      <img path='img/om.png' />
-      <img path='img/pa.png' />
-      <img path='img/pe.png' />
-      <img path='img/pf.png' />
-      <img path='img/pg.png' />
-      <img path='img/ph.png' />
-      <img path='img/pk.png' />
       <img path='img/pl.png' />
-      <img path='img/pm.png' />
-      <img path='img/pn.png' />
-      <img path='img/pr.png' />
-      <img path='img/ps.png' />
       <img path='img/pt.png' />
-      <img path='img/pw.png' />
-      <img path='img/py.png' />
-      <img path='img/qa.png' />
-      <img path='img/re.png' />
       <img path='img/ro.png' />
-      <img path='img/rs.png' />
-      <img path='img/ru.png' />
-      <img path='img/rw.png' />
-      <img path='img/sa.png' />
-      <img path='img/sb.png' />
-      <img path='img/sc.png' />
-      <img path='img/sd.png' />
       <img path='img/se.png' />
-      <img path='img/sg.png' />
-      <img path='img/sh.png' />
       <img path='img/si.png' />
-      <img path='img/sj.png' />
       <img path='img/sk.png' />
-      <img path='img/sl.png' />
-      <img path='img/sm.png' />
-      <img path='img/sn.png' />
-      <img path='img/so.png' />
-      <img path='img/sr.png' />
-      <img path='img/ss.png' />
-      <img path='img/st.png' />
-      <img path='img/sv.png' />
-      <img path='img/sx.png' />
-      <img path='img/sy.png' />
-      <img path='img/sz.png' />
-      <img path='img/tc.png' />
-      <img path='img/td.png' />
-      <img path='img/tf.png' />
-      <img path='img/tg.png' />
-      <img path='img/th.png' />
-      <img path='img/tj.png' />
-      <img path='img/tk.png' />
-      <img path='img/tl.png' />
-      <img path='img/tm.png' />
-      <img path='img/tn.png' />
-      <img path='img/to.png' />
-      <img path='img/tr.png' />
-      <img path='img/tt.png' />
-      <img path='img/tv.png' />
-      <img path='img/tw.png' />
-      <img path='img/tz.png' />
-      <img path='img/ua.png' />
-      <img path='img/ug.png' />
-      <img path='img/um.png' />
-      <img path='img/us.png' />
-      <img path='img/uy.png' />
-      <img path='img/uz.png' />
-      <img path='img/va.png' />
-      <img path='img/vc.png' />
-      <img path='img/ve.png' />
-      <img path='img/vg.png' />
-      <img path='img/vi.png' />
-      <img path='img/vn.png' />
-      <img path='img/vu.png' />
-      <img path='img/warning.png' />
-      <img path='img/wf.png' />
-      <img path='img/ws.png' />
-      <img path='img/xk.png' />
-      <img path='img/ye.png' />
-      <img path='img/yt.png' />
-      <img path='img/za.png' />
-      <img path='img/zm.png' />
-      <img path='img/zw.png' />
-
     </resources>
-        <feature-usage>
-      <uses-feature name="Utility" required="true" />
-    </feature-usage>
   </control>
 </manifest>
