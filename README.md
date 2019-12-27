@@ -1,3 +1,6 @@
+<p align="center">
+<a href="https://github.com/allandecastro/VATNumberValidator/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"/></a>
+</p>
 
 # VAT Number Validator
  
@@ -12,7 +15,7 @@ Support any entities (OOB and custom) and any BPF (OOB and custom).
 
 ## Screenshot
 
-![alt text](https://github.com/allandecastro/VATNumberValidator/blob/master/video.webm?raw=true)
+![alt text](https://github.com/allandecastro/VATNumberValidator/blob/master/video.gif?raw=true)
 
 # Installation
 
