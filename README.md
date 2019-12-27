@@ -19,7 +19,7 @@ Support any entities (OOB and custom) and any BPF (OOB and custom).
 
 # Installation
 
-You can find the managed solution into ./DeployVATNumberValidator/ folder.
+You can find the managed and unmanaged solution into ./DeployVATNumberValidator/ folder.
 
 Then you must follow these steps:
 
