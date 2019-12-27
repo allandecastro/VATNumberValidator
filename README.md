@@ -1,3 +1,6 @@
+<p align="center">
+<a href="https://github.com/allandecastro/VATNumberValidator/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"/></a>
+</p>
 
 # VAT Number Validator
  
