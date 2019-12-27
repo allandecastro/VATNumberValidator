@@ -12,6 +12,7 @@ Support any entities (OOB and custom) and any BPF (OOB and custom).
 
 ## Screenshot
 
+![alt text](https://github.com/allandecastro/VATNumberValidator/blob/master/video.webm?raw=true)
 
 # Installation
 
@@ -33,10 +34,11 @@ This is the list of parameters that can be set on the control
 
 |Parameter|Description|Required|Example|
 |---------|-----------|:----:|:---:|
-|**completedColor**|This Hex Color define the background color of the completed stages.|X|#090|
-|**completedTextColor**|This Hex Color define the  text color of the completed stages.|X|#090|
-|**activeColor**|This Hex Color define the background color of the active stage.|X|#777|
-|**activeTextColor**|This Hex Color define the text color of the active stage.|X|#2183DD|
+|**vatNumberfield**|Field containing the VAT Number..|X|SingleLine.Text, SingleLine.TextArea, Multiple|
+|**isVatNumberValid**|Boolean field filled-in with the output validity of the VAT Number.||Boolean field|
+|**companyName**|Field that will be used to insert the name of the found company.||SingleLine.Text, SingleLine.TextArea, Multiple|
+|**companyAddress**|Field that will be used to insert the address of the found company.||SingleLine.Text, SingleLine.TextArea, Multiple|
+|**displayDialog**|Specifies whether you want to display error message(s) in the following cases.||null, NotFound, ApiError,Both|
 
 
 # How to Package a component ?
