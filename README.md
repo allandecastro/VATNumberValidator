@@ -6,6 +6,8 @@
  
 Here is another Power Apps Component using Power Apps Component framework!
 
+Full story available here: https://www.blog.allandecastro.com/deep-dive-into-power-apps-component-framework-part-4-walkthrough-to-create-your-first-pcf-based-on-a-field/
+
 
 ## Purpose
 
