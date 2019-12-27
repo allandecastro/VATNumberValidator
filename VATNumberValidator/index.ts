@@ -1,5 +1,6 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 
+
 export class VATNumberValidator implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
 	private _context: ComponentFramework.Context<IInputs>;
@@ -14,6 +15,8 @@ export class VATNumberValidator implements ComponentFramework.StandardControl<II
 	private _companyName: string;
 	private _companyAddress: string;
 	private _isValid: boolean;
+	private _displayDialog: string;
+
 	/**
 	 * Empty constructor.
 	 */
@@ -30,20 +33,24 @@ export class VATNumberValidator implements ComponentFramework.StandardControl<II
 	 * @param container If a control is marked control-type='standard', it will receive an empty div element within which it can render its content.
 	 */
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container: HTMLDivElement) {
-		// Add control initialization code
 		this._context = context;
 		this._container = container;
 		this._notifyOutputChanged = notifyOutputChanged;
 		this._vatNumberChanged = this.vatNumberChanged.bind(this);
 
-		this._vatNumber = this._context.parameters.vatNumberfield == null || this._context.parameters.vatNumberfield.raw == null ? "" : this._context.parameters.vatNumberfield.raw;
+		this._vatNumber = this._context.parameters.vatNumberfield == null || this._context.parameters.vatNumberfield.raw == null ? "" : this._context.parameters.vatNumberfield.raw.trim();
 		this._companyName = this._context.parameters.companyName == null || this._context.parameters.companyName.raw == null ? "" : this._context.parameters.companyName.raw;
 		this._companyAddress = this._context.parameters.companyAddress == null || this._context.parameters.companyAddress.raw == null ? "" : this._context.parameters.companyAddress.raw;
+		this._displayDialog = this._context.parameters.displayDialog == null || this._context.parameters.displayDialog.raw == null ? "" : this._context.parameters.displayDialog.raw;
 
 		this._container = document.createElement("div");
 		container.appendChild(this._container);
 		this._vatNumberElement = document.createElement("input");
 		this._vatNumberElement.setAttribute("type", "text");
+		if (this._vatNumber.length > 0)
+			this._vatNumberElement.setAttribute("title", this._vatNumber);
+		else
+			this._vatNumberElement.setAttribute("title", "Select to enter data");
 		this._vatNumberElement.setAttribute("class", "pcfvatinputcontrol");
 		this._vatNumberElement.addEventListener("change", this._vatNumberChanged);
 		this._vatNumberTypeElement = document.createElement("img");
@@ -51,13 +58,20 @@ export class VATNumberValidator implements ComponentFramework.StandardControl<II
 		this._vatNumberTypeElement.setAttribute("height", "24px");
 		this._container.appendChild(this._vatNumberElement);
 		this._container.appendChild(this._vatNumberTypeElement);
+		this.SecurityEnablement(this._vatNumberElement);
 	}
 	/**
 	* Called when a change is detected in the phone number input.
 	*/
-	private vatNumberChanged(evt: Event): void {
+	private vatNumberChanged(): void {
+		this._vatNumberElement.value = this._vatNumberElement.value.trim().replace(" ", "").toUpperCase();
 		this.CheckVatNumber();
-		this._notifyOutputChanged();
+		if (this._vatNumber != this._vatNumberElement.value) {
+			this._vatNumber = this._vatNumberElement.value;
+			this._vatNumberElement.setAttribute("title", this._vatNumber);
+			this._notifyOutputChanged();
+			
+		}
 	}
 
 	/**
@@ -67,12 +81,10 @@ export class VATNumberValidator implements ComponentFramework.StandardControl<II
 	public updateView(context: ComponentFramework.Context<IInputs>): void {
 		let visible = this._context.mode.isVisible;
 		if (visible) {
-			this.SecurityEnablement(this._vatNumberElement);
-			this._vatNumber = this._context.parameters.vatNumberfield == null || this._context.parameters.vatNumberfield.raw == null ? "" : this._context.parameters.vatNumberfield.raw;
-			if (this._vatNumber != null && this._vatNumber.length > 0) {
+			this._vatNumber = this._context.parameters.vatNumberfield == null || this._context.parameters.vatNumberfield.raw == null ? "" : this._context.parameters.vatNumberfield.raw.trim();
+			if (this._vatNumber != null && this._vatNumber.length > 0 && this._vatNumber != this._vatNumberElement.value) {
 				this._vatNumberElement.value = this._vatNumber;
 				this.CheckVatNumber();
-				this._notifyOutputChanged();
 			}
 		}
 	}
@@ -103,10 +115,10 @@ export class VATNumberValidator implements ComponentFramework.StandardControl<II
 	 * Used to query the SOAP services and set the result to the appropriate fields.
 	 */
 	private CheckVatNumber(): void {
-		this._vatNumber = this._vatNumberElement.value;
-		if (this._vatNumber.length > 0) {
+		this.findAndSetImage("loading","gif");
+		if (this._vatNumberElement.value.length > 0) {
 			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.open('POST', 'https://cors-anywhere.herokuapp.com/https://euvat-cors-reverse-proxy.glitch.me/vies', true);
+			xmlhttp.open('POST', 'https://cors-anywhere.herokuapp.com/http://ec.europa.eu/taxation_customs/vies/services/checkVatService', false);
 			// build SOAP request
 			var soadpRequest: string = "<?xml version='1.0' encoding='UTF-8'?>" +
 				"<SOAP-ENV:Envelope xmlns:ns0='urn:ec.europa.eu:taxud:vies:services:checkVat:types'" +
@@ -114,8 +126,8 @@ export class VATNumberValidator implements ComponentFramework.StandardControl<II
 				" xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'" +
 				" xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'>" +
 				"<SOAP-ENV:Header/><ns1:Body><ns0:checkVat>" +
-				"<ns0:countryCode>" + this._vatNumber.slice(0, 2).toUpperCase() + "</ns0:countryCode>" +
-				"<ns0:vatNumber>" + this._vatNumber.slice(2) + "</ns0:vatNumber>" +
+				"<ns0:countryCode>" + this._vatNumberElement.value.slice(0, 2).toUpperCase() + "</ns0:countryCode>" +
+				"<ns0:vatNumber>" + this._vatNumberElement.value.slice(2) + "</ns0:vatNumber>" +
 				"</ns0:checkVat></ns1:Body></SOAP-ENV:Envelope>";
 			let isValid: boolean = false;
 			var _this = this;
@@ -125,23 +137,25 @@ export class VATNumberValidator implements ComponentFramework.StandardControl<II
 						var parser: DOMParser, xmlDoc: any;
 						parser = new DOMParser();
 						xmlDoc = parser.parseFromString(xmlhttp.responseText, "text/xml");
-						if (xmlDoc.getElementsByTagName("valid")[0] != undefined) {
-							_this._isValid = xmlDoc.getElementsByTagName("valid")[0].childNodes[0].nodeValue === "true" ? true : false;
+						if (xmlDoc.getElementsByTagName("valid")[0] != undefined && xmlDoc.getElementsByTagName("valid")[0].childNodes[0].nodeValue === "true") {
+							_this._isValid = true;
 							if (xmlDoc.getElementsByTagName("name")[0] != undefined)
 								_this._companyName = xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue == null || xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue == undefined ? "" : <string>xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue;
 							if (xmlDoc.getElementsByTagName("address")[0] != undefined)
 								_this._companyAddress = xmlDoc.getElementsByTagName("address")[0].childNodes[0].nodeValue == null || xmlDoc.getElementsByTagName("address")[0].childNodes[0].nodeValue == undefined ? "" : <string>xmlDoc.getElementsByTagName("address")[0].childNodes[0].nodeValue;
-							_this.findAndSetImage(_this._vatNumber.slice(0, 2).toLowerCase());
+							_this.findAndSetImage(_this._vatNumberElement.value.slice(0, 2).toLowerCase(),"png");
 						}
 						else {
 							_this._isValid = false;
-							_this._context.navigation.openAlertDialog({ text: "No result found for the following VAT Number: " + _this._vatNumber });
-							_this.findAndSetImage("warning");
+							if (_this._displayDialog === "Both" || _this._displayDialog === "NotFound")
+								_this._context.navigation.openAlertDialog({ text: "No result found for the following VAT Number: " + _this._vatNumberElement.value });
+							_this.findAndSetImage("warning","png");
 						}
 					}
 					else {
-						_this._context.navigation.openAlertDialog({ text: "Problème avec le service distant: " + xmlhttp.status });
-						_this.findAndSetImage(_this._vatNumber.slice(0, 2).toLowerCase());
+						if (_this._displayDialog === "Both" || _this._displayDialog === "ApiError")
+							_this._context.navigation.openAlertDialog({ text: "Problem with the remote service, status: " + xmlhttp.status });
+						_this.findAndSetImage("warning","png");
 					}
 				}
 			}
@@ -174,29 +188,14 @@ export class VATNumberValidator implements ComponentFramework.StandardControl<II
  * Called when a change is detected in the phone number input
  * @param imageName Name of the image to retrieve
  */
-	private findAndSetImage(imageName: string) {
-		this._context.resources.getResource("img/" + imageName + ".png",
+	private findAndSetImage(imageName: string,imageExtension:string) {
+		this._context.resources.getResource("img/" + imageName + "."+imageExtension,
 			data => {
-				this._vatNumberTypeElement.setAttribute("src", this.generateImageSrcUrl(".png", data));
+				this._vatNumberTypeElement.setAttribute("src", this.generateImageSrcUrl("."+imageExtension, data));
 			},
 			() => {
-				console.log('Error when downloading ' + imageName + '.png image.');
+				console.log('Error when downloading ' + imageName + '.'+imageExtension+' image.');
 			});
-	}
-	/**
- * * This function return a string converted in PascalCase format.
- * @param stringToConvert: String variable to be converted in PascalCase format.
- */
-	private ToPascalCase(stringToConvert: string): string {
-		return `${stringToConvert}`
-			.replace(new RegExp(/[-_]+/, 'g'), ' ')
-			.replace(new RegExp(/[^\w\s]/, 'g'), '')
-			.replace(
-				new RegExp(/\s+(.)(\w+)/, 'g'),
-				($1, $2, $3) => `${$2.toUpperCase() + $3.toLowerCase()}`
-			)
-			.replace(new RegExp(/\s/, 'g'), '')
-			.replace(new RegExp(/\w/), s => s.toUpperCase());
 	}
 	/**
  	* Called when a change is detected in the phone number input
