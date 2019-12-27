@@ -12,7 +12,7 @@ Support any entities (OOB and custom) and any BPF (OOB and custom).
 
 ## Screenshot
 
-![alt text](https://github.com/allandecastro/VATNumberValidator/blob/master/video.webm?raw=true)
+![alt text](https://github.com/allandecastro/VATNumberValidator/blob/master/video.gif?raw=true)
 
 # Installation
 
