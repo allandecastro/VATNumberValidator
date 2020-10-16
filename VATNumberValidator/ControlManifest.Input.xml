@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="VATNumberValidatorNameSpace" constructor="VATNumberValidator" version="1.0.0" display-name-key="VATNumberValidator" description-key="VATNumberValidator allows you to validate the entry of a VAT Number by checking it with the European Commission and retrieving, depending on the configuration, the address and the name of the company." control-type="standard" preview-image="img/preview.png">
+  <control namespace="VATNumberValidatorNameSpace" constructor="VATNumberValidator" version="1.0.4" display-name-key="VATNumberValidator" description-key="VATNumberValidator allows you to validate the entry of a VAT Number by checking it with the European Commission and retrieving, depending on the configuration, the address and the name of the company." control-type="standard" preview-image="img/preview.png">
     <property name="vatNumberfield" display-name-key="VAT Number Field" description-key="Field containing the VAT Number." of-type-group="textFields" usage="bound" required="true" />
     <property name="isVatNumberValid" display-name-key="VAT number validity field" description-key="Boolean field filled-in with the output validity of the VAT Number." of-type="TwoOptions" usage="bound" required="false" />
     <property name="companyName" display-name-key="Company Name" description-key="Field that will be used to insert the name of the found company." of-type-group="textFields" usage="bound" required="false" />
     <property name="companyAddress" display-name-key="Company Address" description-key="Field that will be used to insert the address of the found company." of-type-group="textFields" usage="bound" required="false" />
     <property name="displayDialog" display-name-key="displayDialog" description-key="Specifies whether you want to display error message(s) in the following cases." usage="input" of-type="Enum" required="false">
       <value name="NotFound" display-name-key="displayNotFound" description-key="Display message only if no result found.">NotFound</value>
-      <value name="ApiError" display-name-key="displayApiError" description-key="Display message only if service is unavailable or crashed." >ApiError</value>
+      <value name="ApiError" display-name-key="displayApiError" description-key="Display message only if service is unavailable or crashed.">ApiError</value>
       <value name="Both" display-name-key="displayBoth" description-key="Display message only if service is unavailable or crashed and if no result found." default="true">Both</value>
     </property>
     <type-group name="textFields">
@@ -16,39 +16,39 @@
       <type>Multiple</type>
     </type-group>
     <resources>
-      <code path="index.ts" order="1"/>
+      <code path="index.ts" order="1" />
       <css path="css/VATNumberValidator.css" order="1" />
-      <img path='img/preview.png' />
-      <img path='img/warning.png' />
-      <img path='img/loading.gif' />
-      <img path='img/at.png' />
-      <img path='img/be.png' />
-      <img path='img/bg.png' />
-      <img path='img/cy.png' />
-      <img path='img/cz.png' />
-      <img path='img/de.png' />
-      <img path='img/dk.png' />
-      <img path='img/ee.png' />
-      <img path='img/el.png' />
-      <img path='img/es.png' />
-      <img path='img/fi.png' />
-      <img path='img/fr.png' />
-      <img path='img/gb.png' />
-      <img path='img/hr.png' />
-      <img path='img/hu.png' />
-      <img path='img/ie.png' />
-      <img path='img/it.png' />
-      <img path='img/lt.png' />
-      <img path='img/lu.png' />
-      <img path='img/lv.png' />
-      <img path='img/mt.png' />
-      <img path='img/nl.png' />
-      <img path='img/pl.png' />
-      <img path='img/pt.png' />
-      <img path='img/ro.png' />
-      <img path='img/se.png' />
-      <img path='img/si.png' />
-      <img path='img/sk.png' />
+      <img path="img/preview.png" />
+      <img path="img/warning.png" />
+      <img path="img/loading.gif" />
+      <img path="img/at.png" />
+      <img path="img/be.png" />
+      <img path="img/bg.png" />
+      <img path="img/cy.png" />
+      <img path="img/cz.png" />
+      <img path="img/de.png" />
+      <img path="img/dk.png" />
+      <img path="img/ee.png" />
+      <img path="img/el.png" />
+      <img path="img/es.png" />
+      <img path="img/fi.png" />
+      <img path="img/fr.png" />
+      <img path="img/gb.png" />
+      <img path="img/hr.png" />
+      <img path="img/hu.png" />
+      <img path="img/ie.png" />
+      <img path="img/it.png" />
+      <img path="img/lt.png" />
+      <img path="img/lu.png" />
+      <img path="img/lv.png" />
+      <img path="img/mt.png" />
+      <img path="img/nl.png" />
+      <img path="img/pl.png" />
+      <img path="img/pt.png" />
+      <img path="img/ro.png" />
+      <img path="img/se.png" />
+      <img path="img/si.png" />
+      <img path="img/sk.png" />
     </resources>
   </control>
 </manifest>
