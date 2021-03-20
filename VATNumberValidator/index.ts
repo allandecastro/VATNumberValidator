@@ -118,7 +118,7 @@ export class VATNumberValidator implements ComponentFramework.StandardControl<II
 		this.findAndSetImage("loading","gif");
 		if (this._vatNumberElement.value.length > 0) {
 			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.open('POST', 'https://cors-anywhere.herokuapp.com/http://ec.europa.eu/taxation_customs/vies/services/checkVatService', false);
+			xmlhttp.open('POST', 'https://cors.bridged.cc/http://ec.europa.eu/taxation_customs/vies/services/checkVatService', false);
 			// build SOAP request
 			var soadpRequest: string = "<?xml version='1.0' encoding='UTF-8'?>" +
 				"<SOAP-ENV:Envelope xmlns:ns0='urn:ec.europa.eu:taxud:vies:services:checkVat:types'" +
