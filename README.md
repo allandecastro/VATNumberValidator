@@ -102,3 +102,11 @@ msbuild or msbuild /p:configuration=Release (for managed solution)
 * You will have the solution file in SolutionFolder/bin/debug and/or release folder!
 
 
+## Marius Notes:
+Building did not work, deleted package-lock.json and recreated it with npm install. 
+Then refreshTypes command was missing in package.json, this standard command was not working without
+npm install --save-dev typescript@4
+
+Then building required eslint
+npm install --save-dev eslint
+eslint --init
