@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="VATNumberValidatorNameSpace" constructor="VATNumberValidator" version="1.1.0" display-name-key="VATNumberValidator" description-key="VATNumberValidator allows you to validate the entry of a VAT Number by checking it with the European Commission and retrieving, depending on the configuration, the address and the name of the company." control-type="standard" preview-image="img/preview.png">
+  <control namespace="VATNumberValidatorNameSpace" constructor="VATNumberValidator" version="1.1.0" display-name-key="VATNumberValidator" description-key="VATNumberValidator allows you to validate the entry of a VAT Number by checking it with the European Commission and retrieving, depending on the configuration, the address and the name of the company." control-type="standard">
     <property name="vatNumberfield" display-name-key="VAT Number Field" description-key="Field containing the VAT Number." of-type-group="textFields" usage="bound" required="true" />
     <property name="isVatNumberValid" display-name-key="VAT number validity field" description-key="Boolean field filled-in with the output validity of the VAT Number." of-type="TwoOptions" usage="bound" required="false" />
     <property name="companyName" display-name-key="Company Name" description-key="Field that will be used to insert the name of the found company." of-type-group="textFields" usage="bound" required="false" />
@@ -15,6 +15,9 @@
       <type>SingleLine.TextArea</type>
       <type>Multiple</type>
     </type-group>
+    <feature-usage>
+			<uses-feature name="WebAPI" required="true" />
+		</feature-usage>
     <resources>
       <code path="index.ts" order="1" />
       <css path="css/VATNumberValidator.css" order="1" />
