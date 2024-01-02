@@ -16,8 +16,8 @@
       <type>Multiple</type>
     </type-group>
     <feature-usage>
-			<uses-feature name="WebAPI" required="true" />
-		</feature-usage>
+		<uses-feature name="WebAPI" required="true" />
+	</feature-usage>
     <resources>
       <code path="index.ts" order="1" />
       <css path="css/VATNumberValidator.css" order="1" />

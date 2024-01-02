@@ -203,7 +203,7 @@ class ValidateVATRequest {
                     "structuralProperty": 1,
                 },
             },
-            operationName: "mwo_ValidateVAT",
+            operationName: "adc_ValidateVAT",
             operationType: 0,
         };
         return metadata;

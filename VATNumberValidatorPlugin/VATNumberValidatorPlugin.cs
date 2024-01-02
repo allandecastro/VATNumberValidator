@@ -1,4 +1,3 @@
-using Microsoft.Xrm.Sdk;
 using System;
 using System.Linq;
 using ViesVat;
@@ -7,7 +6,7 @@ namespace VATNumberValidatorPlugin
 {
     public class ValidateVAT : PluginBase
     {
-        public ValidateVAT(string unsecureConfiguration, string secureConfiguration)
+        public ValidateVAT()
             : base(typeof(ValidateVAT))
         {
         }
