@@ -102,17 +102,3 @@ msbuild or msbuild /p:configuration=Release (for managed solution)
 * You will have the solution file in SolutionFolder/bin/debug and/or release folder!
 
 
-## Marius Notes for running the project:
-Building did not work, deleted package-lock.json and recreated it with npm install (likely linux vs windows issue). 
-Then refreshTypes command was missing in package.json, this standard command was not working without
-    npm install --save-dev typescript@4
-
-Then building required eslint
-    npm install --save-dev eslint
-    eslint --init
-
-Importing failed due to
-    Import Solution Failed: CustomControl with name  failed to import with error: CustomControls with Name VATNumberValidatorNameSpace.VATNumberValidator Import Solution Failed with following error: CustomControls Source File PreviewImage img/preview.png does not exist in the solution as mentioned in the manifest file.
-removed
-    preview-image="img/preview.png"
-to make it work.
