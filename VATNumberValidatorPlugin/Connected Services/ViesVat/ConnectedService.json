@@ -1,0 +1,17 @@
+{
+  "ExtendedData": {
+    "inputs": [
+      "../../checkVatService.wsdl"
+    ],
+    "collectionTypes": [
+      "System.Array",
+      "System.Collections.Generic.Dictionary`2"
+    ],
+    "namespaceMappings": [
+      "*, ViesVat"
+    ],
+    "sync": true,
+    "targetFramework": "net462",
+    "typeReuseMode": "None"
+  }
+}

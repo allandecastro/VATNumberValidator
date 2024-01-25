@@ -63,9 +63,9 @@ export class VATNumberValidator implements ComponentFramework.StandardControl<II
 	/**
 	* Called when a change is detected in the phone number input.
 	*/
-	private vatNumberChanged(): void {
+	private async vatNumberChanged(): Promise<void> {
 		this._vatNumberElement.value = this._vatNumberElement.value.trim().replace(" ", "").toUpperCase();
-		this.CheckVatNumber();
+		await this.CheckVatNumber();
 		if (this._vatNumber != this._vatNumberElement.value) {
 			this._vatNumber = this._vatNumberElement.value;
 			this._vatNumberElement.setAttribute("title", this._vatNumber);
@@ -114,54 +114,34 @@ export class VATNumberValidator implements ComponentFramework.StandardControl<II
 	/**
 	 * Used to query the SOAP services and set the result to the appropriate fields.
 	 */
-	private CheckVatNumber(): void {
+	private async CheckVatNumber(): Promise<void> {
+		//ATU65450549
 		this.findAndSetImage("loading","gif");
 		if (this._vatNumberElement.value.length > 0) {
-			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.open('POST', 'https://cors.bridged.cc/http://ec.europa.eu/taxation_customs/vies/services/checkVatService', false);
-			// build SOAP request
-			var soadpRequest: string = "<?xml version='1.0' encoding='UTF-8'?>" +
-				"<SOAP-ENV:Envelope xmlns:ns0='urn:ec.europa.eu:taxud:vies:services:checkVat:types'" +
-				" xmlns:ns1='http://schemas.xmlsoap.org/soap/envelope/'" +
-				" xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'" +
-				" xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'>" +
-				"<SOAP-ENV:Header/><ns1:Body><ns0:checkVat>" +
-				"<ns0:countryCode>" + this._vatNumberElement.value.slice(0, 2).toUpperCase() + "</ns0:countryCode>" +
-				"<ns0:vatNumber>" + this._vatNumberElement.value.slice(2) + "</ns0:vatNumber>" +
-				"</ns0:checkVat></ns1:Body></SOAP-ENV:Envelope>";
-			let isValid: boolean = false;
-			var _this = this;
-			xmlhttp.onreadystatechange = function () {
-				if (xmlhttp.readyState == 4) {
-					if (xmlhttp.status == 200) {
-						var parser: DOMParser, xmlDoc: any;
-						parser = new DOMParser();
-						xmlDoc = parser.parseFromString(xmlhttp.responseText, "text/xml");
-						if (xmlDoc.getElementsByTagName("valid")[0] != undefined && xmlDoc.getElementsByTagName("valid")[0].childNodes[0].nodeValue === "true") {
-							_this._isValid = true;
-							if (xmlDoc.getElementsByTagName("name")[0] != undefined)
-								_this._companyName = xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue == null || xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue == undefined ? "" : <string>xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue;
-							if (xmlDoc.getElementsByTagName("address")[0] != undefined)
-								_this._companyAddress = xmlDoc.getElementsByTagName("address")[0].childNodes[0].nodeValue == null || xmlDoc.getElementsByTagName("address")[0].childNodes[0].nodeValue == undefined ? "" : <string>xmlDoc.getElementsByTagName("address")[0].childNodes[0].nodeValue;
-							_this.findAndSetImage(_this._vatNumberElement.value.slice(0, 2).toLowerCase(),"png");
-						}
-						else {
-							_this._isValid = false;
-							if (_this._displayDialog === "Both" || _this._displayDialog === "NotFound")
-								_this._context.navigation.openAlertDialog({ text: "No result found for the following VAT Number: " + _this._vatNumberElement.value });
-							_this.findAndSetImage("warning","png");
-						}
-					}
-					else {
-						if (_this._displayDialog === "Both" || _this._displayDialog === "ApiError")
-							_this._context.navigation.openAlertDialog({ text: "Problem with the remote service, status: " + xmlhttp.status });
-						_this.findAndSetImage("warning","png");
-					}
+			try {
+				var request = new ValidateVATRequest(this._vatNumberElement.value);
+				var response = await (this._context.webAPI as any).execute(request);
+				var result = await response.json();
+				if (result.Valid == true) {
+					this._isValid = true;
+					if (result.Name != undefined)
+						this._companyName = result.Name;
+					if (result.Address != undefined)
+						this._companyAddress = result.Address;
+					this.findAndSetImage(this._vatNumberElement.value.slice(0, 2).toLowerCase(),"png");
+				}
+				else {
+					this._isValid = false;
+					if (this._displayDialog === "Both" || this._displayDialog === "NotFound")
+						this._context.navigation.openAlertDialog({ text: "No result found for the following VAT Number: " + this._vatNumberElement.value });
+					this.findAndSetImage("warning","png");
 				}
 			}
-			// Send the POST request
-			xmlhttp.setRequestHeader('Content-Type', 'text/xml');
-			xmlhttp.send(soadpRequest);
+			catch (ex) {
+				if (this._displayDialog === "Both" || this._displayDialog === "ApiError")
+					this._context.navigation.openAlertDialog({ text: "Error from Service: " + ex });
+			}
+
 		}
 	}
 	/** 
@@ -205,4 +185,27 @@ export class VATNumberValidator implements ComponentFramework.StandardControl<II
 	private generateImageSrcUrl(fileType: string, fileContent: string): string {
 		return "data:image/" + fileType + ";base64," + fileContent;
 	}
+}
+
+class ValidateVATRequest {
+    private readonly VAT: string;
+
+    constructor (vat: string){
+        this.VAT = vat;
+    }
+
+    getMetadata = function () {
+        let metadata = {
+            boundParameter: null as unknown as string,
+            parameterTypes: {
+                "VAT": {
+                    "typeName": "Edm.String",
+                    "structuralProperty": 1,
+                },
+            },
+            operationName: "adc_ValidateVAT",
+            operationType: 0,
+        };
+        return metadata;
+    };
 }
